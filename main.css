@@ -1,0 +1,126 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
+}
+
+/* :root {
+    --body-color: white;
+    --body-bg-color: black;
+    --color-red: rgb(116, 18, 18);
+    --state-danger: rgb(112, 39, 26);
+  } */
+
+body {
+    background-color: #202124;
+    color: white;
+    text-align: center;
+}
+
+.top-bar {
+    width: 100%;
+    background-color: black;
+    padding: .3rem 0 .1rem 0;
+}
+
+.shadow {
+    box-shadow: 2px 5px 4px rgba(0,0,0,0.40);
+}
+
+#take-note textarea {
+    width: 75%;
+    padding: 10px;
+    margin-top: .3rem;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #acb1b7;
+}
+
+#note-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.note {
+    width: 100%;
+    max-width: 80vw;
+    text-align: left;
+    margin: 1% 0;
+    padding: .7rem;
+    width: max-content;
+    border: 1px solid #3f4146;
+    border-radius: 8px;
+    background-color: #1e3a5f;
+    color: #e8eaed;
+}
+
+.title {
+    max-width: 75%;
+    font-size: 1.2rem;
+    font-family: 'Source Sans Pro';
+    font-weight: 700;
+    text-decoration: underline;
+    word-wrap: break-word;
+}
+
+.note-par {
+    max-width: 75vw;
+    padding: .2rem 0;
+    word-wrap: break-word;
+}
+
+.title-div {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.controls {
+    /* width: 5rem; */
+    /* height: 1.8rem;  */
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 1rem;
+}
+
+/* .button-sm {
+    width: 2rem;
+    font-size: .875rem;
+    height: 1.75rem;
+    line-height: calc(1.75rem - 2px);
+    color: white;
+    border: 0;
+    padding-top: .1rem;
+} */
+
+.pin {
+    border-radius: 7% 0 0 7%;
+    background-color: rgb(13, 90, 13);
+}
+
+.trash {
+    border-radius: 0 7% 7% 0;
+    background-color: rgb(139, 22, 22);
+}
+
+.edit {
+    border-radius: 0;
+    background-color: rgb(47, 77, 165);
+}
+
+.pin:hover {
+    background-color: rgb(2, 143, 2);
+}
+
+.trash:hover {
+    background-color: rgb(173, 26, 26);
+}
+
+.edit:hover {
+    background-color: royalblue;
+}
