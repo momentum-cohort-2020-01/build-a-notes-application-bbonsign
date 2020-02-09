@@ -3,13 +3,15 @@
 
 getNotesJSON().then(displayNotes)
 
-query('#take-note-form').addEventListener('submit',function (event){
+query('#take-note-form').addEventListener('submit', function (event) {
     event.preventDefault()
     let noteObj = {}
-    noteObj.body = query('#note-input').value
-    noteObj.title = "TBD"
+    noteObj.body = query('#note-input').value.trim()
+    noteObj.title = query('#title-input').value
+    noteObj.date = moment().format()
     postNote(noteObj).then(getNotesJSON)
 })
+
 query('#note-list').addEventListener('click', controlButtons)
 
 
@@ -18,7 +20,7 @@ query('#note-list').addEventListener('click', controlButtons)
 function getNotesJSON() {
     return fetch("http://localhost:3000/notes/", { "method": "GET" })
         .then(results => results.json())
-        // .then(data => print(data))
+    // .then(data => print(data))
 }
 
 function postNote(noteObj) {
@@ -43,7 +45,7 @@ function deleteNodeById(id) {
 function displayNotes(notesJSON) {
     let notesSection = query('#note-list')
     let noteElems = notesJSON.map(createNoteElem)
-    for (elem of noteElems) {
+    for (elem of noteElems.reverse()) {
         notesSection.appendChild(elem)
     }
 }
@@ -93,14 +95,15 @@ function createNoteElem(noteObj) {
     for (elem of elements) {
         container.appendChild(elem)
     }
-    // container.appendChild(createNoteControlElems())
+    let dateElem = createTextElem('p', moment(noteObj.date).format('MMM Do, YYYY'), ['date'])
+    container.appendChild(dateElem)
     return container
 }
 
 function createNoteControlElems() {
     let container = createElement('div', ['controls'])
-    let pinButton = createElement('button', ['pin', 'to-top', 'button-sm', 'button-success'])
-    let editButton = createElement('button', ['edit', 'edt', 'button-sm', 'button-info'])
+    let pinButton = createElement('button', ['pin', 'to-top', 'button-sm', 'button-secondary'])
+    let editButton = createElement('button', ['edit', 'edt', 'button-sm', 'button-success'])
     let trashButton = createElement('button', ['trash', 'delete', 'button-sm', 'button-danger'])
     pinButton.innerHTML = "<i class='material-icons md-18 to-top'>arrow_upward</i>"
     editButton.innerHTML = "<i class='material-icons md-18 edt'>edit</i>"

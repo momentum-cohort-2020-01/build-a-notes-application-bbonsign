@@ -13,7 +13,7 @@ body {
 
 .main {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row wrap-reverse;
 }
 
 .top-bar {
@@ -58,7 +58,7 @@ input[type="text"] {
 
 
 #note-list {
-    /* width: 25%; */
+    width: 25%;
     display: flex;
     margin-left: .5rem;
     flex-direction: column;
@@ -71,8 +71,8 @@ input[type="text"] {
     max-width: 80vw;
     text-align: left;
     margin: 1% 0;
-    padding: .7rem;
-    width: max-content;
+    padding: .7rem .7rem 0 .7rem;
+    /* width: max-content; */
     border: 1px solid #3f4146;
     border-radius: 8px;
     background-color: #1e3a5f;
@@ -89,15 +89,23 @@ input[type="text"] {
 }
 
 .note-par {
-    max-width: 75vw;
-    padding: .2rem 0;
+    /* max-width: 75vw; */
+    /* padding: .2rem 0; */
     word-wrap: break-word;
+    line-height: 1.3rem;
+    margin: 0;
 }
 
 .title-div {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+}
+
+.date {
+    margin: .2rem 0 0 0;
+    color: gray;
+    font-size: small;
 }
 
 .controls {
@@ -107,16 +115,6 @@ input[type="text"] {
     flex-flow: row nowrap;
     margin-left: 1rem;
 }
-
-/* .button-sm {
-    width: 2rem;
-    font-size: .875rem;
-    height: 1.75rem;
-    line-height: calc(1.75rem - 2px);
-    color: white;
-    border: 0;
-    padding-top: .1rem;
-} */
 
 .pin {
     border-radius: 7% 0 0 7%;
