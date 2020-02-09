@@ -23,6 +23,7 @@
 <body>
   <header class='top-bar'>
     <h1>Jot down some notes</h1>
+    <button id="new-note" class="button button-success">New Note</button>
   </header>
   <main class="main">
 
@@ -30,25 +31,23 @@
       <section id="pinned"></section>
     </section>
 
+    <div id='display-container'>
+      <!-- <form id='take-note-form'>
+        <div class='flex-container'>
+          <label for='title-input'>Note title:</label>
+          <input id='title-input' type='text' title='title-input' class='input shadow'>
+        </div>
+        <div class='flex-container'>
+          <label for='note-input'>Note body:</label>
+          <textarea id='body-input' class='input shadow' rows='5' cols='33' placeholder='Take a note . . .'></textarea>
+          <div id='submit-container'>
+            <button id='add-note'  class='button-success button-block shadow'>Add note</button>
+          </div>
+        </div>
+      </form> -->
 
-    <form id="take-note-form">
-      <div class="flex-container">
-        <label for="title-input">Note title:</label>
-        <input id="title-input" type="text" title="title-input" class="input shadow">
-      </div>
-      <div class="flex-container">
-      <label for="note-input">Note body:</label>
-      <textarea id="note-input" class="input shadow" rows="5" cols="33" placeholder="Take a note . . ."></textarea>
-      <div id="submit-container">
-        <button id="add-note" type="submit" class="button-success button-block shadow">Add note</button>
-      </div>
     </div>
-    </form>
 
-
-
-
-    <!-- <div class="display shadow"></div> -->
 
   </main>
 </body>

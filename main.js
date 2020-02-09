@@ -68,9 +68,10 @@ function print(value) {
     console.log(value)
     return value
 }
-function createElement(type, classList) {
+function createElement(type, classList, id = '') {
     let element = document.createElement(type)
     element.classList.add(...classList)
+    element.id = id
     return element
 }
 
@@ -102,9 +103,9 @@ function createNoteElem(noteObj) {
 
 function createNoteControlElems() {
     let container = createElement('div', ['controls'])
-    let pinButton = createElement('button', ['pin', 'to-top', 'button-sm', 'button-secondary'])
-    let editButton = createElement('button', ['edit', 'edt', 'button-sm', 'button-success'])
-    let trashButton = createElement('button', ['trash', 'delete', 'button-sm', 'button-danger'])
+    let pinButton = createElement('button', ['pin', 'to-top', 'button-sm'])
+    let editButton = createElement('button', ['edit', 'edt', 'button-sm'])
+    let trashButton = createElement('button', ['trash', 'delete', 'button-sm'])
     pinButton.innerHTML = "<i class='material-icons md-18 to-top'>arrow_upward</i>"
     editButton.innerHTML = "<i class='material-icons md-18 edt'>edit</i>"
     trashButton.innerHTML = "<i class='material-icons md-18 delete'>delete</i>"
@@ -171,4 +172,37 @@ function controlButtons(event) {
         editNote(event)
         print('edit')
     }
+}
+
+function createForm(title = '', body = '') {
+    const displayContainer = query('#display-container')
+    let formHTML = `<form id='take-note-form'>
+    <div class='flex-container'>
+      <label for='title-input'>Note title:</label>
+      <input id='title-input' type='text' title='title-input' class='input shadow'>
+    </div>
+    <div class='flex-container'>
+      <label for='note-input'>Note body:</label>
+      <textarea id='body-input' class='input shadow' rows='5' cols='33' placeholder='Take a note . . .'></textarea>
+      <div id='submit-container'>
+        <button id='add-note'  class='button-success button-block shadow'>Add note</button>
+      </div>
+    </div>
+  </form>`
+
+    displayContainer.innerHTML = formHTML
+
+    const titleInput = query('#title-input')
+    titleInput.value = title
+    const bodyInput = query('#body-input')
+    bodyInput.value = body
+
+
+    // const form = createElement('form', [], 'take-note-form')
+    // const flexContainer1 = createElement('div',['flex-container'])
+    // const flexContainer2 = createElement('div',['flex-container'])
+    // const titleLabel = createElement('label',[],'title-input-label')
+    // const titleInput = createElement('input',[],'title-input')
+    // titleInput
+
 }
