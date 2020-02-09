@@ -3,14 +3,7 @@
 
 getNotesJSON().then(displayNotes)
 
-query('#take-note-form').addEventListener('submit', function (event) {
-    event.preventDefault()
-    let noteObj = {}
-    noteObj.body = query('#note-input').value.trim()
-    noteObj.title = query('#title-input').value
-    noteObj.date = moment().format()
-    postNote(noteObj).then(getNotesJSON)
-})
+
 
 query('#note-list').addEventListener('click', controlButtons)
 
@@ -197,12 +190,12 @@ function createForm(title = '', body = '') {
     const bodyInput = query('#body-input')
     bodyInput.value = body
 
-
-    // const form = createElement('form', [], 'take-note-form')
-    // const flexContainer1 = createElement('div',['flex-container'])
-    // const flexContainer2 = createElement('div',['flex-container'])
-    // const titleLabel = createElement('label',[],'title-input-label')
-    // const titleInput = createElement('input',[],'title-input')
-    // titleInput
-
+    query('#take-note-form').addEventListener('submit', function (event) {
+        event.preventDefault()
+        let noteObj = {}
+        noteObj.body = query('#body-input').value.trim()
+        noteObj.title = query('#title-input').value
+        noteObj.date = moment().format()
+        postNote(noteObj).then(getNotesJSON)
+    })
 }
