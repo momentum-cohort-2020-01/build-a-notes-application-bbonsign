@@ -3,7 +3,8 @@
   "dependencies": {
     "json-server": "^0.15.1",
     "live-server": "^1.2.1",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "shoelace-css": "^1.0.0-beta24"
   },
   "scripts": {
     "start": "run-p api web",
