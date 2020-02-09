@@ -5,17 +5,15 @@
     font-family: 'Source Sans Pro', Arial, sans-serif;
 }
 
-/* :root {
-    --body-color: white;
-    --body-bg-color: black;
-    --color-red: rgb(116, 18, 18);
-    --state-danger: rgb(112, 39, 26);
-  } */
-
 body {
     background-color: #202124;
     color: white;
     text-align: center;
+}
+
+.main {
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .top-bar {
@@ -28,22 +26,44 @@ body {
     box-shadow: 2px 5px 4px rgba(0,0,0,0.40);
 }
 
-#take-note textarea {
-    width: 75%;
-    padding: 10px;
-    margin-top: .3rem;
-    line-height: 1.5;
+#take-note-form {
+    width: auto;
+    margin: 0 .8rem;
+}
+
+.input {
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #acb1b7;
 }
 
-#note-list {
-    width: 100%;
+input[type="text"] {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #acb1b7;
+    box-shadow: 2px 5px 4px rgba(0,0,0,0.40);
+}
+
+#take-note-form textarea {
+    padding: 8px;
+    margin-top: .1rem;
+    line-height: 1.5;
+}
+
+.flex-container {
     display: flex;
+    flex-flow: row wrap;
+}
+
+
+
+#note-list {
+    /* width: 25%; */
+    display: flex;
+    margin-left: .5rem;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: ;
+    align-items: left;
 }
 
 .note {
