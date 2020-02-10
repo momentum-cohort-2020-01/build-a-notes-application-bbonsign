@@ -130,7 +130,6 @@ input[type="text"] {
     text-align: left;
     margin: 1% 0;
     padding: .7rem .7rem 0 .7rem;
-    /* width: max-content; */
     border: 1px solid #3f4146;
     border-radius: 8px;
     background-color: #1e3a5f;
@@ -147,8 +146,6 @@ input[type="text"] {
 }
 
 .note-par {
-    /* max-width: 75vw; */
-    /* padding: .2rem 0; */
     word-wrap: break-word;
     line-height: 1.3rem;
     margin: 0;
@@ -167,8 +164,6 @@ input[type="text"] {
 }
 
 .controls {
-    /* width: 5rem; */
-    /* height: 1.8rem;  */
     display: flex;
     flex-flow: row nowrap;
     margin-left: 1rem;
