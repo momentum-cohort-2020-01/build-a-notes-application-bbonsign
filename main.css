@@ -13,13 +13,33 @@ body {
 
 .main {
     display: flex;
-    flex-flow: row wrap-reverse;
+    flex-flow: row nowrap;
+}
+
+@media (max-width: 800px) {
+    .main {
+        flex-flow: row wrap-reverse;
+    }
 }
 
 .top-bar {
     width: 100%;
     background-color: black;
     padding: .3rem 0 .1rem 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-bar div {
+    position: absolute;
+    left: 3rem;
+    font-weight: 700;
+}
+
+#new-note {
+    margin-left: 2rem;
 }
 
 .shadow {
@@ -29,6 +49,12 @@ body {
 #take-note-form {
     width: auto;
     margin: 0 .8rem;
+}
+
+label {
+    font-weight: 600;
+    padding-top: 5px;
+    margin: 0
 }
 
 .input {
@@ -44,6 +70,11 @@ input[type="text"] {
     box-shadow: 2px 5px 4px rgba(0,0,0,0.40);
 }
 
+#display-container {
+    width: 70%;
+    align-self: flex-start;
+}
+
 #take-note-form textarea {
     padding: 8px;
     margin-top: .1rem;
@@ -55,15 +86,42 @@ input[type="text"] {
     flex-flow: row wrap;
 }
 
-
+#submit-container {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+}
 
 #note-list {
-    width: 25%;
+    width: 30%;
     display: flex;
     margin-left: .5rem;
     flex-direction: column;
-    justify-content: ;
-    align-items: left;
+    justify-content: flex-start;
+}
+
+.note-list {
+    background-color: rgb(51, 49, 49);
+    border: 1px solid rgb(75, 75, 75);
+    border-radius: 8px;
+    margin: .1rem;
+    padding-left: .5rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: left;
+}
+
+.selected {
+    background-color: rgb(46, 46, 92);
+}
+
+.note-list p {
+    margin: .1rem;
+    text-align: left;
+}
+
+#note-display {
+    padding: .3rem .3rem;
 }
 
 .note {
@@ -116,19 +174,32 @@ input[type="text"] {
     margin-left: 1rem;
 }
 
+.button-sm {
+    border: 0
+}
+
 .pin {
     border-radius: 7% 0 0 7%;
     background-color: rgb(13, 90, 13);
 }
 
 .trash {
-    border-radius: 0 7% 7% 0;
+    border-radius: 0;
     background-color: rgb(139, 22, 22);
 }
 
 .edit {
     border-radius: 0;
     background-color: rgb(47, 77, 165);
+}
+
+.close {
+    border-radius: 0 7% 7% 0;
+}
+
+.close:hover {
+    background-color: #1491ff;
+
 }
 
 .pin:hover {
