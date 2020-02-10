@@ -64,14 +64,19 @@ function createTextElem(type, text, classList) {
     return elem
 }
 
+function setNoteDataAttr(element, noteObj) {
+    element.setAttribute('data-id', noteObj.id)
+    element.setAttribute('data-title', noteObj.title)
+    element.setAttribute('data-body', noteObj.body)
+    element.setAttribute('data-pinned', noteObj.pinned)
+    element.setAttribute('data-date', noteObj.date)
+    return element
+}
+
 function createListElem(noteObj) {
     let container = createElement('div', ['note-list'])
     container.id = 'note' + String(noteObj.id)
-    container.setAttribute('data-id', noteObj.id)
-    container.setAttribute('data-title', noteObj.title)
-    container.setAttribute('data-body', noteObj.body)
-    container.setAttribute('data-pinned', noteObj.pinned)
-    container.setAttribute('data-date', noteObj.date)
+    setNoteDataAttr(container, noteObj)
     let titleElem = createTextElem('p', noteObj.title, ['title'])
     container.appendChild(titleElem)
     let dateElem = createTextElem('p', `Last edited: ${moment(noteObj.date).format('MMM Do, YYYY, h:mm a')}`, ['date'])
@@ -93,23 +98,14 @@ function createListElem(noteObj) {
 function createNoteElem(noteObj) {
     let container = createElement('div', ['note', 'shadow'])
     container.id = 'display' + String(noteObj.id)
-    container.setAttribute('data-id', noteObj.id)
-    container.setAttribute('data-title', noteObj.title)
-    container.setAttribute('data-body', noteObj.body)
-    container.setAttribute('data-date', noteObj.date)
-    container.setAttribute('data-pinned', noteObj.pinned)
+    setNoteDataAttr(container, noteObj)
     let titleContainer = createElement('div', ['title-div'])
-    let titleElem = createTextElem('p', noteObj.title, ['title'])
-    titleContainer.appendChild(titleElem)
+    titleContainer.appendChild(createTextElem('p', noteObj.title, ['title']))
     titleContainer.appendChild(createNoteControlElems())
     container.appendChild(titleContainer)
-    let noteBodySplit = noteObj.body.split('\n')
-    let elements = noteBodySplit.map(par => createTextElem('p', par, ['note-par']))
-    for (elem of elements) {
-        container.appendChild(elem)
-    }
-    let dateElem = createTextElem('p', `Last edited: ${moment(noteObj.date).format('MMM Do, YYYY, h:mm a')}`, ['date'])
-    container.appendChild(dateElem)
+    let elements = noteObj.body.split('\n').map(par => createTextElem('p', par, ['note-par']))
+    elements.map(elem => { container.appendChild(elem) })
+    container.appendChild(createTextElem('p', `Last edited: ${moment(noteObj.date).format('MMM Do, YYYY, h:mm a')}`, ['date']))
     return container
 }
 
@@ -144,7 +140,6 @@ function togglePinnedNoteObect(noteElem) {
         pinned = true
         noteElem.classList.add('pinned')
     }
-
     return fetch(`http://localhost:3000/notes/${noteElem.dataset.id}`,
         {
             method: "PATCH",
@@ -153,7 +148,6 @@ function togglePinnedNoteObect(noteElem) {
         })
         .then(response => { console.log(`PATCH request responded with status: ${response.status}`) })
 }
-
 
 function pinNote(event) {
     // ----------------- todo -----------------------
@@ -273,4 +267,3 @@ function createForm(id, titleParam = '', bodyParam = '', use) {
 function removeForm() {
     query('#take-note-form').remove()
 }
-
