@@ -112,7 +112,11 @@ input[type="text"] {
 }
 
 .selected {
-    background-color: rgb(46, 46, 92);
+    background-color: #1e3a5f;
+}
+
+.pinned {
+    background-color: rgb(10, 49, 10);
 }
 
 .note-list p {
