@@ -60,7 +60,7 @@ function createElement(type, classList) {
 
 function createTextElem(type, text, classList) {
     let elem = createElement(type, classList)
-    elem.innerHTML = text
+    elem.textContent = text
     return elem
 }
 
@@ -108,7 +108,7 @@ function createNoteElem(noteObj) {
     container.appendChild(createTextElem('p', `Last edited: ${moment(noteObj.date).format('MMM Do, YYYY, h:mm a')}`, ['date']))
     return container
 }
-
+'Last edit: '+moment().format()
 function createNoteControlElems() {
     let container = createElement('div', ['controls'])
     let pinButton = createElement('button', ['pin', 'to-top', 'button-sm'])
