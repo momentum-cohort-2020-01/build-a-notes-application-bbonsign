@@ -1,20 +1,16 @@
-
-// ============= Main and Listeners ===============
+// ============= Initial page setup and Listeners ===============
 
 getNotesJSON().then(displayList)
 
-query('#new-note').addEventListener('click', createForm)
+query('#new-note').addEventListener('click', (e) => createForm(e, '', '', 'create'))
 
 query('#display-container').addEventListener('click', controlButtons)
 
-
-
-// ================= Functions ====================
+// ================= Requests ====================
 
 function getNotesJSON() {
     return fetch("http://localhost:3000/notes/", { "method": "GET" })
         .then(results => results.json())
-    // .then(data => print(data))
 }
 
 function postNote(noteObj) {
@@ -28,6 +24,17 @@ function postNote(noteObj) {
         .then(response => { console.log(`Posted note responded with status: ${response.status}`) })
 }
 
+function patchNote(noteObj) {
+    return fetch(`http://localhost:3000/notes/${noteObj.id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(noteObj)
+    })
+        .then(response => { console.log(`Patched note responded with status: ${response.status}`) })
+}
+
 // id should the id assigned to the note on the server
 function deleteRequest(id) {
     id = String(id)
@@ -35,36 +42,16 @@ function deleteRequest(id) {
         .then(response => { console.log(`DELETE request responded with status: ${response.status}`) })
 }
 
-// notesJSON respresents the object returned by the server, which is an array of note objects
-// function displayList(notesJSON) {
-//     let notesSection = query('#note-list')
-//     let noteElems = notesJSON.map(createListElem)
-//     for (elem of noteElems.reverse()) {
-//         notesSection.appendChild(elem)
-//     }
-// }
-
+// ====================== Functions ============================
 function displayList(noteJSON) {
     let listContainer = query('#note-list')
     noteJSON.reverse().map((obj => listContainer.appendChild(createListElem(obj))))
-}
-
-// ================= Helpers =======================
-const sampleNoteOb = {
-    "title": "This is a longer title",
-    "body": "This is a sample note hardcoded into main.js for testing in the console.\n This is another sentence!",
-    "date": moment().format(),
-    "pinned": false
 }
 
 function query(selector) {
     return document.querySelector(selector)
 }
 
-function print(value) {
-    console.log(value)
-    return value
-}
 function createElement(type, classList) {
     let element = document.createElement(type)
     element.classList.add(...classList)
@@ -87,16 +74,16 @@ function createListElem(noteObj) {
     container.setAttribute('data-date', noteObj.date)
     let titleElem = createTextElem('p', noteObj.title, ['title'])
     container.appendChild(titleElem)
-    let dateElem = createTextElem('p', moment(noteObj.date).format('MMM Do, YYYY, h:mm a'), ['date'])
+    let dateElem = createTextElem('p', `Last edited: ${moment(noteObj.date).format('MMM Do, YYYY, h:mm a')}`, ['date'])
     container.appendChild(dateElem)
 
-    container.addEventListener('click', function(event) {
+    container.addEventListener('click', function (event) {
         let noteListTile = event.target.closest('.note-list')
         if (noteListTile.matches('.selected')) {
             let note = query(`#display${noteListTile.dataset.id}`)
             closeNote(note)
         }
-        else(
+        else (
             displayNote(event)
         )
     })
@@ -120,6 +107,10 @@ function createNoteElem(noteObj) {
     let container = createElement('div', ['note', 'shadow'])
     container.id = 'display' + String(noteObj.id)
     container.setAttribute('data-id', noteObj.id)
+    container.setAttribute('data-title', noteObj.title)
+    container.setAttribute('data-body', noteObj.body)
+    container.setAttribute('data-date', noteObj.date)
+    container.setAttribute('data-pinned', noteObj.pinned)
     let titleContainer = createElement('div', ['title-div'])
     let titleElem = createTextElem('p', noteObj.title, ['title'])
     titleContainer.appendChild(titleElem)
@@ -130,7 +121,7 @@ function createNoteElem(noteObj) {
     for (elem of elements) {
         container.appendChild(elem)
     }
-    let dateElem = createTextElem('p', moment(noteObj.date).format('MMM Do, YYYY'), ['date'])
+    let dateElem = createTextElem('p', `Last edited: ${moment(noteObj.date).format('MMM Do, YYYY, h:mm a')}`, ['date'])
     container.appendChild(dateElem)
     return container
 }
@@ -212,6 +203,12 @@ function deleteNote(noteElem) {
     }
 }
 
+function editNote(note) {
+    let body = note.dataset.body
+    let title = note.dataset.title
+    createForm(note.dataset.id, title, body, 'edit')
+}
+
 function controlButtons(event) {
     let note, id
     if (event.target.closest('.note')) {
@@ -225,7 +222,7 @@ function controlButtons(event) {
         pinNote(event)
     }
     else if (event.target.matches('.edt')) {
-        editNote(event)
+        editNote(note)
     }
     else if (event.target.matches('.cls')) {
         closeNote(note)
@@ -234,13 +231,12 @@ function controlButtons(event) {
 
 
 
-
-function createForm(_, titleParam = '', bodyParam = '') {
-
+// use = "create" or "edit"
+function createForm(id, titleParam = '', bodyParam = '', use) {
     const displayContainer = query('#display-container')
     for (let child of displayContainer.children) {
         if (child.id == 'take-note-form') {
-            return
+            child.remove()
         }
     }
 
@@ -254,7 +250,7 @@ function createForm(_, titleParam = '', bodyParam = '') {
             <textarea id='body-input' class='input shadow' rows='5' cols='33' placeholder='Take a note . . .'></textarea>
             <div id='submit-container'>
                 <button id='cancel-note' class='button-danger button-block shadow'>Discard</button>
-                <button id='add-note' type="submit" class='button-success button-block shadow'>Submit note</button>
+                <button id='add-note-${use}' type="submit" class='button-success button-block shadow'>Submit note</button>
             </div>
             </div>
         </form>`
@@ -266,7 +262,7 @@ function createForm(_, titleParam = '', bodyParam = '') {
 
     query('#cancel-note').addEventListener('click', removeForm)
 
-    query('#add-note').addEventListener('click', function (event) {
+    query(`#add-note-${use}`).addEventListener('click', function (event) {
         event.preventDefault()
         let noteObj = {}
         noteObj.body = query('#body-input').value.trim()
@@ -276,9 +272,18 @@ function createForm(_, titleParam = '', bodyParam = '') {
         query('#note-list').innerHTML = ''
         removeForm()
 
-        postNote(noteObj)
-            .then(getNotesJSON)
-            .then(displayList)
+        if (use == 'create') {
+            postNote(noteObj)
+                .then(getNotesJSON)
+                .then(displayList)
+        }
+        if (use == 'edit') {
+            noteObj.id = id
+            patchNote(noteObj)
+                .then(getNotesJSON)
+                .then(displayList)
+                .then(param => {query('#note-display').innerHTML=''})
+        }
     })
 }
 
