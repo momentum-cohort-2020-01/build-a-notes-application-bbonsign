@@ -90,19 +90,6 @@ function createListElem(noteObj) {
     return container
 }
 
-function displayNote(event) {
-    let note = event.target.closest('.note-list')
-    note.classList.add('selected')
-    let noteObj = {}
-    noteObj.id = note.dataset.id
-    noteObj.title = note.dataset.title
-    noteObj.body = note.dataset.body
-    noteObj.pinned = note.dataset.pinned
-    noteObj.date = note.dataset.date
-    query('#display-container').appendChild(createNoteElem(noteObj))
-}
-
-
 function createNoteElem(noteObj) {
     let container = createElement('div', ['note', 'shadow'])
     container.id = 'display' + String(noteObj.id)
@@ -158,7 +145,7 @@ function togglePinnedNoteObect(noteElem) {
         noteElem.classList.add('pinned')
     }
 
-    return fetch(`http://localhost:3000/notes/${noteElem.id}`,
+    return fetch(`http://localhost:3000/notes/${noteElem.dataset.id}`,
         {
             method: "PATCH",
             headers: { "Content-type": "application/json" },
@@ -172,18 +159,17 @@ function pinNote(event) {
     // ----------------- todo -----------------------
 }
 
+function populateNoteObj(id, title, body, pinned, date) {
+    return noteObj = { id, title, body, pinned, date }
+}
+
 function displayNote(event) {
     let note = event.target.closest('.note-list')
     if (note.matches('.selected')) {
         return
     }
     note.classList.add('selected')
-    let noteObj = {}
-    noteObj.id = note.dataset.id
-    noteObj.title = note.dataset.title
-    noteObj.body = note.dataset.body
-    noteObj.pinned = note.dataset.pinned
-    noteObj.date = note.dataset.date
+    let noteObj = populateNoteObj(note.dataset.id, note.dataset.title, note.dataset.body, note.dataset.pinned, note.dataset.date)
     query('#note-display').insertAdjacentElement('afterbegin', createNoteElem(noteObj))
 }
 
@@ -229,9 +215,7 @@ function controlButtons(event) {
     }
 }
 
-
-
-// use = "create" or "edit"
+// use = "create" or "edit" to indicate whether to POST or PATCH
 function createForm(id, titleParam = '', bodyParam = '', use) {
     const displayContainer = query('#display-container')
     for (let child of displayContainer.children) {
@@ -259,7 +243,6 @@ function createForm(id, titleParam = '', bodyParam = '', use) {
 
     query('#title-input').value = titleParam
     query('#body-input').value = bodyParam
-
     query('#cancel-note').addEventListener('click', removeForm)
 
     query(`#add-note-${use}`).addEventListener('click', function (event) {
@@ -282,7 +265,7 @@ function createForm(id, titleParam = '', bodyParam = '', use) {
             patchNote(noteObj)
                 .then(getNotesJSON)
                 .then(displayList)
-                .then(param => {query('#note-display').innerHTML=''})
+                .then(param => { query('#note-display').innerHTML = '' })
         }
     })
 }
